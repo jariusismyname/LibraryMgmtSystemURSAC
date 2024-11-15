@@ -909,42 +909,49 @@ Public Class FormBooksTransactions
         End If
     End Sub
     Private Sub UpdateStudentNumber(StudentNumber As String)
-        Dim exists As Boolean = False
-        Dim count As Integer = 0
-
         Using connection As New SqlConnection(connectionString)
             connection.Open()
 
-            ' Check if student number already exists
+            ' Check if the student number exists
             Dim checkQuery As String = "SELECT COUNT(*) FROM Students WHERE StudentNumber = @StudentNumber"
+            Dim studentExists As Boolean
             Using checkCommand As New SqlCommand(checkQuery, connection)
                 checkCommand.Parameters.AddWithValue("@StudentNumber", StudentNumber)
-                exists = CInt(checkCommand.ExecuteScalar()) > 0
+                studentExists = CInt(checkCommand.ExecuteScalar()) > 0
             End Using
 
-            ' Count existing student numbers in Transactions
-            Dim countQuery As String = "SELECT COUNT(*) FROM Transactions WHERE StudentNumber IS NOT NULL"
+            If Not studentExists Then
+                MsgBox($"Student number {StudentNumber} doesn't exist.", MsgBoxStyle.Information)
+                Exit Sub
+            End If
+
+            ' Count existing transactions where Status = 'Borrowed' for this student number
+            Dim countQuery As String = "SELECT COUNT(*) FROM Transactions WHERE StudentNumber = @StudentNumber AND Status = 'Borrowed'"
+            Dim borrowedCount As Integer
             Using countCommand As New SqlCommand(countQuery, connection)
-                count = CInt(countCommand.ExecuteScalar())
+                countCommand.Parameters.AddWithValue("@StudentNumber", StudentNumber)
+                borrowedCount = CInt(countCommand.ExecuteScalar())
             End Using
 
-            If exists Then
-                If count < 3 Then  ' Only update if less than 3 student numbers exist
-                    ' Update Transactions table
-                    Dim updateQuery As String = "UPDATE Transactions SET StudentNumber = @StudentNumber WHERE StudentNumber IS NULL"
-                    Using updateCommand As New SqlCommand(updateQuery, connection)
-                        updateCommand.Parameters.AddWithValue("@StudentNumber", StudentNumber)
-                        updateCommand.ExecuteNonQuery()
-                    End Using
-                    PNLAGAIN.Visible = True
-                    PNLSTUDENTNUMBER.Visible = False
-                Else
-                    MsgBox("Maximum of 3 student numbers allowed in Transactions.", MsgBoxStyle.Information)
-                End If
+            If borrowedCount < 3 Then
+                ' Update Transactions table to assign this StudentNumber to NULL entries
+                Dim updateQuery As String = "UPDATE TOP (1) Transactions SET StudentNumber = @StudentNumber WHERE StudentNumber IS NULL AND Status = 'Borrowed'"
+                Using updateCommand As New SqlCommand(updateQuery, connection)
+                    updateCommand.Parameters.AddWithValue("@StudentNumber", StudentNumber)
+                    Dim rowsAffected = updateCommand.ExecuteNonQuery()
+
+                    If rowsAffected > 0 Then
+                        PNLAGAIN.Visible = True
+                        PNLSTUDENTNUMBER.Visible = False
+                    Else
+                        MsgBox("No available transactions to update.", MsgBoxStyle.Information)
+                    End If
+                End Using
             Else
-                MsgBox("Student number " & StudentNumber & " doesn't exist.", MsgBoxStyle.Information)
+                MsgBox("Maximum of 3 borrowed transactions allowed for this student number.", MsgBoxStyle.Information)
             End If
         End Using
+
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Dim studentNumber As String = txtstudentnumber_.Text
@@ -1074,49 +1081,49 @@ Public Class FormBooksTransactions
     End Sub
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click
-        ' Define the SQL DELETE command - ensure only one row is deleted based on TransactionId
-        Dim sqlDelete As String = "DELETE TOP (1) FROM Transactions WHERE StudentNumber = @StudentNumber AND ISBN = @ISBN"
+        '' Define the SQL DELETE command - ensure only one row is deleted based on TransactionId
+        'Dim sqlDelete As String = "DELETE TOP (1) FROM Transactions WHERE StudentNumber = @StudentNumber AND ISBN = @ISBN"
 
-        ' Check if textboxes have values
-        If String.IsNullOrEmpty(TXTSTUDENTNUMBER___.Text) OrElse String.IsNullOrEmpty(TXTISBN___.Text) Then
-            MessageBox.Show("Please provide both Student Number and ISBN to delete a transaction.")
-            Exit Sub
-        End If
+        '' Check if textboxes have values
+        'If String.IsNullOrEmpty(TXTSTUDENTNUMBER___.Text) OrElse String.IsNullOrEmpty(TXTISBN___.Text) Then
+        '    MessageBox.Show("Please provide both Student Number and ISBN to delete a transaction.")
+        '    Exit Sub
+        'End If
 
-        ' Create a new SqlConnection using the connection string
-        Using conn As New SqlConnection(connectionString)
-            Dim cmd As New SqlCommand(sqlDelete, conn)
+        '' Create a new SqlConnection using the connection string
+        'Using conn As New SqlConnection(connectionString)
+        '    Dim cmd As New SqlCommand(sqlDelete, conn)
 
-            ' Add parameters for the StudentNumber and ISBN
-            cmd.Parameters.AddWithValue("@StudentNumber", TXTSTUDENTNUMBER___.Text)
-            cmd.Parameters.AddWithValue("@ISBN", TXTISBN___.Text)
+        '    ' Add parameters for the StudentNumber and ISBN
+        '    cmd.Parameters.AddWithValue("@StudentNumber", TXTSTUDENTNUMBER___.Text)
+        '    cmd.Parameters.AddWithValue("@ISBN", TXTISBN___.Text)
 
-            Try
-                ' Open the connection
-                conn.Open()
+        '    Try
+        '        ' Open the connection
+        '        conn.Open()
 
-                ' Execute the DELETE command
-                Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
+        '        ' Execute the DELETE command
+        '        Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
 
-                ' Check if the delete operation was successful
-                If rowsAffected > 0 Then
-                    MessageBox.Show("Transaction deleted successfully!")
-                    LoadDataIntoDataGridView2() ' Refresh the DataGridView if necessary
+        '        ' Check if the delete operation was successful
+        '        If rowsAffected > 0 Then
+        '            MessageBox.Show("Transaction deleted successfully!")
+        '            LoadDataIntoDataGridView2() ' Refresh the DataGridView if necessary
 
-                Else
-                    MessageBox.Show("No matching transaction found.")
-                End If
+        '        Else
+        '            MessageBox.Show("No matching transaction found.")
+        '        End If
 
-            Catch ex As Exception
-                ' Handle any exceptions that occur during the operation
-                MessageBox.Show("Error: " & ex.Message)
-            Finally
-                ' Close the connection if it's open
-                If conn.State = ConnectionState.Open Then
-                    conn.Close()
-                End If
-            End Try
-        End Using
+        '    Catch ex As Exception
+        '        ' Handle any exceptions that occur during the operation
+        '        MessageBox.Show("Error: " & ex.Message)
+        '    Finally
+        '        ' Close the connection if it's open
+        '        If conn.State = ConnectionState.Open Then
+        '            conn.Close()
+        '        End If
+        '    End Try
+        'End Using
 
     End Sub
 
@@ -1287,8 +1294,61 @@ Public Class FormBooksTransactions
         End Using
     End Sub
 
-    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles btnreturn.Click
+        ' Define the SQL UPDATE command - ensure only one row is updated based on StudentNumber and ISBN
+        Dim sqlUpdate As String = "
+    UPDATE TOP (1) Transactions
+    SET Status = 'Returned', ActualReturnDate = @ActualReturnDate
+    WHERE StudentNumber = @StudentNumber AND ISBN = @ISBN"
 
+        ' Check if textboxes have values
+        If String.IsNullOrEmpty(txtstudentnumberreturnbook.Text) OrElse String.IsNullOrEmpty(txtisbnreturnbook.Text) Then
+            MessageBox.Show("Please provide both Student Number and ISBN to update the transaction.")
+            Exit Sub
+        End If
+
+        ' Create a new SqlConnection using the connection string
+        Using conn As New SqlConnection(connectionString)
+            Dim cmd As New SqlCommand(sqlUpdate, conn)
+
+            ' Add parameters for the StudentNumber, ISBN, and ActualReturnDate
+            cmd.Parameters.AddWithValue("@StudentNumber", txtstudentnumberreturnbook.Text)
+            cmd.Parameters.AddWithValue("@ISBN", txtisbnreturnbook.Text)
+            cmd.Parameters.AddWithValue("@ActualReturnDate", DateTime.Now) ' Use current date and time
+
+            Try
+                ' Open the connection
+                conn.Open()
+
+                ' Execute the UPDATE command
+                Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
+
+                ' Check if the update operation was successful
+                If rowsAffected > 0 Then
+                    MessageBox.Show("Transaction updated successfully!")
+                    LoadDataIntoDataGridView2() ' Refresh the DataGridView if necessary
+
+                Else
+                    MessageBox.Show("No matching transaction found.")
+                End If
+
+            Catch ex As Exception
+                ' Handle any exceptions that occur during the operation
+                MessageBox.Show("Error: " & ex.Message)
+            Finally
+                ' Close the connection if it's open
+                If conn.State = ConnectionState.Open Then
+                    conn.Close()
+                End If
+            End Try
+        End Using
+
+
+    End Sub
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        PNLISBN.Visible = True
+        PNLRETURNBOOK_.Visible = False
     End Sub
 
 
