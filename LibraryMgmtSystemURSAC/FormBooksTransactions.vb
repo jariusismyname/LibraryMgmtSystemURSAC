@@ -7,6 +7,239 @@ Public Class FormBooksTransactions
     Private camera As VideoCaptureDevice
     Private bmp As Bitmap
     Private connectionString As String = "Data Source=JARIUS-PC\SQLEXPRESS;Initial Catalog=LibraryManagementSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    ' Declare AForge VideoCaptureDevice and FilterInfoCollection
+    'Private videoCaptureDevice As VideoCaptureDevice
+    'Private captureDevice As FilterInfoCollection
+    'Private barcodeReader As ZXing.BarcodeReader
+    ' Declare flags to track barcode reader states
+    ' Flag to check if the camera is in use
+    'Private isCameraInUse As Boolean = False
+    'Private isBorrowing As Boolean = False ' This tracks if borrowing is active
+    'Private videoCaptureDevice As VideoCaptureDevice
+    'Private captureDevice As FilterInfoCollection
+    'Private barcodeReader As ZXing.BarcodeReader
+    ' Declare Mutex
+    Private cameraMutex As New System.Threading.Mutex()
+    Private videoCaptureDevice As VideoCaptureDevice
+    Private captureDevice As FilterInfoCollection
+    Private barcodeReader As ZXing.BarcodeReader
+
+    ' Handle frame capture and barcode decoding
+    'Private Sub CaptureDevice_NewFrame(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)
+    '    ' Capture the frame
+    '    Dim frame As Bitmap = CType(eventArgs.Frame.Clone(), Bitmap)
+    '    PictureBoxReturnBook.Image = frame
+
+    '    ' Attempt to decode the barcode
+    '    Dim result = barcodeReader.Decode(frame)
+    '    If result IsNot Nothing Then
+    '        ' Put the decoded ISBN into txtisbnreturnbook
+    '        txtisbnreturnbook.Text = result.Text
+
+    '        ' Stop the camera after decoding
+    '        StopCamera()
+    '    End If
+    'End Sub
+
+    'Private Sub btncamera_Click(sender As Object, e As EventArgs) Handles btncamera.Click
+    '    ' Initialize the barcode reader
+    '    barcodeReader = New ZXing.BarcodeReader()
+
+    '    ' List available cameras
+    '    captureDevice = New FilterInfoCollection(FilterCategory.VideoInputDevice)
+    '    If captureDevice.Count = 0 Then
+    '        MessageBox.Show("No camera found!")
+    '        Return
+    '    End If
+
+    '    ' Select the first available camera
+    '    videoCaptureDevice = New VideoCaptureDevice(captureDevice(0).MonikerString)
+    '    AddHandler videoCaptureDevice.NewFrame, AddressOf CaptureDevice_NewFrame
+
+    '    ' Start the video feed
+    '    videoCaptureDevice.Start()
+    'End Sub
+    ' Start camera for return process
+    ' Start camera for return process
+    'Private Sub btncamera_Click(sender As Object, e As EventArgs) Handles btncamera.Click
+    '    ' Check if camera is already in use for borrowing or other process
+    '    If isCameraInUse Then
+    '        MessageBox.Show("Camera is currently in use. Please wait until the borrowing process is finished.")
+    '        Return
+    '    End If
+
+    '    ' Initialize barcode reader for return process
+    '    barcodeReader = New ZXing.BarcodeReader()
+
+    '    ' Get available video capture devices (cameras)
+    '    captureDevice = New FilterInfoCollection(FilterCategory.VideoInputDevice)
+    '    If captureDevice.Count = 0 Then
+    '        MessageBox.Show("No camera found!")
+    '        Return
+    '    End If
+
+    '    ' Use the first available camera
+    '    videoCaptureDevice = New VideoCaptureDevice(captureDevice(0).MonikerString)
+
+    '    ' Handle new frame for barcode detection
+    '    AddHandler videoCaptureDevice.NewFrame, AddressOf CaptureDevice_NewFrame
+
+    '    ' Set the flag that the camera is now in use
+    '    isCameraInUse = True
+
+    '    ' Start the video capture
+    '    videoCaptureDevice.Start()
+    'End Sub
+    Private Sub btncamera_Click(sender As Object, e As EventArgs) Handles btncamera.Click
+        ' Check if the mutex is locked (i.e., camera is in use elsewhere)
+        If Not cameraMutex.WaitOne(0) Then
+            MessageBox.Show("Camera is already in use. Please wait.")
+            Return
+        End If
+
+        ' Initialize barcode reader for return
+        barcodeReader = New ZXing.BarcodeReader()
+        captureDevice = New FilterInfoCollection(FilterCategory.VideoInputDevice)
+
+        If captureDevice.Count = 0 Then
+            MessageBox.Show("No camera found!")
+            Return
+        End If
+
+        ' Start video capture for barcode reading
+        videoCaptureDevice = New VideoCaptureDevice(captureDevice(0).MonikerString)
+        AddHandler videoCaptureDevice.NewFrame, AddressOf CaptureDevice_NewFrame
+        videoCaptureDevice.Start()
+    End Sub
+
+    '' Stop the camera when done or when the form is closing
+    'Private Sub StopCamera()
+    '    If videoCaptureDevice IsNot Nothing AndAlso videoCaptureDevice.IsRunning Then
+    '        videoCaptureDevice.SignalToStop()
+    '        videoCaptureDevice = Nothing
+    '    End If
+
+    '    ' Reset the camera usage flag
+    '    isCameraInUse = False
+    'End Sub
+
+    ' Stop the camera
+    'Private Sub StopCamera()
+    '    If videoCaptureDevice IsNot Nothing AndAlso videoCaptureDevice.IsRunning Then
+    '        videoCaptureDevice.SignalToStop()
+    '        videoCaptureDevice = Nothing
+    '    End If
+    'End Sub
+    ' Handle barcode scanning for borrowing
+    'Private Sub ScanForBorrowing()
+    '    ' Set the flag indicating borrowing is active
+    '    isBorrowing = True
+
+    '    ' Barcode scan logic for borrowing (similar to the above)
+    '    ' Once the scan is done, set isBorrowing = False
+    '    isBorrowing = False
+    'End Sub
+    Private Sub StopCamera()
+        ' Release the Mutex
+        'cameraMutex.ReleaseMutex()
+
+        If videoCaptureDevice IsNot Nothing AndAlso videoCaptureDevice.IsRunning Then
+            videoCaptureDevice.SignalToStop()
+            videoCaptureDevice = Nothing
+        End If
+    End Sub
+
+    Private Sub Form_Closing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        StopCamera()
+    End Sub
+
+    'Private Sub StopCamera()
+    '    If videoCaptureDevice IsNot Nothing AndAlso videoCaptureDevice.IsRunning Then
+    '        videoCaptureDevice.SignalToStop()
+    '        videoCaptureDevice = Nothing
+    '    End If
+    'End Sub
+    'Private Sub Form_Closing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+    '    StopCamera()
+    'End Sub
+
+
+    'Private Sub CaptureDevice_NewFrame(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)
+    '    ' Display the current frame in PictureBox
+    '    Dim frame As Bitmap = CType(eventArgs.Frame.Clone(), Bitmap)
+    '    PictureBoxReturnBook.Image = frame
+
+    '    ' Attempt to decode the barcode from the frame
+    '    Dim result = barcodeReader.Decode(frame)
+    '    If result IsNot Nothing Then
+    '        ' Display the decoded text in txtisbnreturnbook
+    '        txtisbnreturnbook.Text = result.Text
+    '        StopCamera()  ' Stop camera after decoding
+    '    End If
+    'End Sub
+    Private Sub CaptureDevice_NewFrame(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)
+        ' Display the current frame in PictureBox
+        Dim frame As Bitmap = CType(eventArgs.Frame.Clone(), Bitmap)
+        PictureBoxReturnBook.Image = frame
+
+        ' Use Task to decode barcode in background thread
+        Task.Run(Sub() DecodeBarcode(frame))
+    End Sub
+    Private Sub DecodeBarcode(frame As Bitmap)
+        Try
+            ' Decode the barcode in the background
+            Dim result = barcodeReader.Decode(frame)
+
+            ' Check if barcode was decoded successfully
+            If result IsNot Nothing Then
+                ' Update the UI on the main thread
+                Invoke(Sub()
+                           txtisbnreturnbook.Text = result.Text
+                           StopCamera()  ' Stop the camera after decoding
+                           'camera.SignalToStop() ' Stop the camera
+
+                       End Sub)
+            End If
+
+
+        Catch ex As Exception
+            ' Handle any exceptions here (e.g., decoding failure)
+        End Try
+
+
+    End Sub
+    'Private Sub CaptureDevice_NewFrame(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)
+    '    ' Capture the frame
+    '    Dim frame As Bitmap = CType(eventArgs.Frame.Clone(), Bitmap)
+    '    PictureBoxReturnBook.Image = frame
+
+    '    ' Decode the barcode from the frame
+    '    Dim result = barcodeReader.Decode(frame)
+    '    If result IsNot Nothing Then
+    '        ' Store the decoded ISBN in the textbox
+    '        txtisbnreturnbook.Text = result.Text
+
+    '        ' Stop the camera after decoding
+    '        StopCamera()
+    '    End If
+    'End Sub
+
+    ' Handle frame capture and barcode decoding
+    'Private Sub CaptureDevice_NewFrame(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)
+    '    ' Capture the frame
+    '    Dim frame As Bitmap = CType(eventArgs.Frame.Clone(), Bitmap)
+    '    PictureBoxReturnBook.Image = frame
+
+    '    ' Attempt to decode the barcode from the captured frame
+    '    Dim result = barcodeReader.Decode(frame)
+    '    If result IsNot Nothing Then
+    '        ' Put the decoded ISBN into txtisbnreturnbook
+    '        txtisbnreturnbook.Text = result.Text
+
+    '        ' Stop the camera once a barcode is decoded
+    '        StopCamera()
+    '    End If
+    'End Sub
 
     Private Sub btnScan_Click(sender As Object, e As EventArgs) Handles btnScan.Click
         ' Start camera
@@ -835,7 +1068,7 @@ Public Class FormBooksTransactions
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
-        PNLRETURNBOOK.Visible = True
+        PNLRETURNBOOK_.Visible = True
         PNLISBN.Visible = False
 
     End Sub
@@ -1052,6 +1285,10 @@ Public Class FormBooksTransactions
                 MessageBox.Show("Error: " & ex.Message)
             End Try
         End Using
+    End Sub
+
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+
     End Sub
 
 
