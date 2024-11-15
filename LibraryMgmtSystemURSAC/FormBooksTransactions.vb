@@ -90,8 +90,17 @@ Public Class FormBooksTransactions
     '    ' Start the video capture
     '    videoCaptureDevice.Start()
     'End Sub
+    ' Private Sub to clear images from PictureBoxCamera and PictureBoxReturnBook
+    Private Sub ClearPictureBoxes()
+        PictureBoxCamera.Image = Nothing
+        PictureBoxReturnBook.Image = Nothing
+    End Sub
+
     Private Sub btncamera_Click(sender As Object, e As EventArgs) Handles btncamera.Click
-        ' Check if the mutex is locked (i.e., camera is in use elsewhere)
+
+        'If camera IsNot Nothing AndAlso camera.IsRunning Then
+        '    camera.SignalToStop() ' Stop the camera when form closes
+        'End If ' Check if the mutex is locked (i.e., camera is in use elsewhere)
         If Not cameraMutex.WaitOne(0) Then
             MessageBox.Show("Camera is already in use. Please wait.")
             Return
@@ -178,12 +187,31 @@ Public Class FormBooksTransactions
     '    End If
     'End Sub
     Private Sub CaptureDevice_NewFrame(sender As Object, eventArgs As AForge.Video.NewFrameEventArgs)
-        ' Display the current frame in PictureBox
-        Dim frame As Bitmap = CType(eventArgs.Frame.Clone(), Bitmap)
-        PictureBoxReturnBook.Image = frame
+        '' Display the current frame in PictureBox
+        'Dim frame As Bitmap = CType(eventArgs.Frame.Clone(), Bitmap)
+        'PictureBoxReturnBook.Image = frame
 
-        ' Use Task to decode barcode in background thread
-        Task.Run(Sub() DecodeBarcode(frame))
+        '' Use Task to decode barcode in background thread
+        'Task.Run(Sub() DecodeBarcode(frame))
+
+
+        ' Clone the frame to avoid the bitmap being locked by multiple processes
+        If bmp IsNot Nothing Then
+            bmp.Dispose() ' Dispose of the previous bitmap to avoid memory leaks
+        End If
+
+        bmp = DirectCast(eventArgs.Frame.Clone(), Bitmap)
+        PictureBoxReturnBook.Image = DirectCast(bmp.Clone(), Bitmap) ' Display the cloned bitmap
+
+        ' Barcode reader
+        Dim reader As New BarcodeReader()
+        Dim result As Result = reader.Decode(bmp)
+
+        If result IsNot Nothing Then
+            txtisbnreturnbook.Invoke(Sub() txtisbnreturnbook.Text = result.Text) ' Display scanned ISBN
+            videoCaptureDevice.SignalToStop() ' Stop the camera
+            UpdateDatabase(result.Text) ' Call the update function
+        End If
     End Sub
     Private Sub DecodeBarcode(frame As Bitmap)
         Try
@@ -197,6 +225,7 @@ Public Class FormBooksTransactions
                            txtisbnreturnbook.Text = result.Text
                            StopCamera()  ' Stop the camera after decoding
                            'camera.SignalToStop() ' Stop the camera
+                           'videoCaptureDevice.SignalToStop() ' Stop the camera
 
                        End Sub)
             End If
@@ -256,7 +285,8 @@ Public Class FormBooksTransactions
         End If
 
         bmp = DirectCast(eventArgs.Frame.Clone(), Bitmap)
-        PictureBoxCamera.Image = DirectCast(bmp.Clone(), Bitmap) ' Display the cloned bitmap
+        PictureBoxCamera.Image = DirectCast(bmp.Clone(), Bitmap) ' Display the cloned
+        ' 
 
         ' Barcode reader
         Dim reader As New BarcodeReader()
@@ -319,7 +349,7 @@ Public Class FormBooksTransactions
     End Sub
     Private Sub InsertISBNToTransaction(isbn As String)
         ' Define the connection string
-        Dim connString As String = "Data Source=DESKTOP-D5V36F0\SQLEXPRESS;Initial Catalog=LibraryManagementSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+        Dim connString As String = "Data Source=JARIUS-PC\SQLEXPRESS;Initial Catalog=LibraryManagementSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
         Dim conn As New SqlConnection(connString)
 
         Try
@@ -1327,6 +1357,7 @@ Public Class FormBooksTransactions
                 If rowsAffected > 0 Then
                     MessageBox.Show("Transaction updated successfully!")
                     LoadDataIntoDataGridView2() ' Refresh the DataGridView if necessary
+                    ClearPictureBoxes()
 
                 Else
                     MessageBox.Show("No matching transaction found.")

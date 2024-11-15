@@ -1058,10 +1058,10 @@ Partial Class FormBooksTransactions
         Me.btncamera.BackColor = System.Drawing.Color.LightSeaGreen
         Me.btncamera.Font = New System.Drawing.Font("Segoe UI", 14.0!, System.Drawing.FontStyle.Bold)
         Me.btncamera.ForeColor = System.Drawing.Color.White
-        Me.btncamera.Location = New System.Drawing.Point(357, 73)
+        Me.btncamera.Location = New System.Drawing.Point(388, 73)
         Me.btncamera.Margin = New System.Windows.Forms.Padding(2)
         Me.btncamera.Name = "btncamera"
-        Me.btncamera.Size = New System.Drawing.Size(442, 35)
+        Me.btncamera.Size = New System.Drawing.Size(411, 35)
         Me.btncamera.TabIndex = 57
         Me.btncamera.Text = "Click to Start Scanning..."
         Me.btncamera.UseVisualStyleBackColor = False
@@ -1197,10 +1197,10 @@ Partial Class FormBooksTransactions
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1138, 618)
-        Me.Controls.Add(Me.PNLSTUDENTNUMBER)
-        Me.Controls.Add(Me.PNLRETURNDATE)
         Me.Controls.Add(Me.PNLRETURNBOOK_)
         Me.Controls.Add(Me.PNLISBN)
+        Me.Controls.Add(Me.PNLSTUDENTNUMBER)
+        Me.Controls.Add(Me.PNLRETURNDATE)
         Me.Controls.Add(Me.PNLBOOKS)
         Me.Controls.Add(Me.PNLTRANSACTIONS)
         Me.Controls.Add(Me.PNLRETURNBOOK)
