@@ -6,7 +6,7 @@ Imports System.Data.SqlClient
 Public Class FormBooksTransactions
     Private camera As VideoCaptureDevice
     Private bmp As Bitmap
-    Private connectionString As String = "Data Source=DESKTOP-D5V36F0\SQLEXPRESS;Initial Catalog=LibraryManagementSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    Private connectionString As String = "Data Source=JARIUS-PC\SQLEXPRESS;Initial Catalog=LibraryManagementSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 
     Private Sub btnScan_Click(sender As Object, e As EventArgs) Handles btnScan.Click
         ' Start camera
@@ -957,14 +957,12 @@ Public Class FormBooksTransactions
     End Sub
     Private Sub FineAmount()
         Dim sqlUpdate As String = "UPDATE Transactions SET FineAmount = CASE " &
-                              "WHEN DATEDIFF(DAY, ReturnDate, @Today) * 50 < 0 THEN 0.00 " &
-                              "ELSE DATEDIFF(DAY, ReturnDate, @Today) * 50 END"
+                              "WHEN DATEDIFF(DAY, CONVERT(DATE, ReturnDate, 103), @Today) * 50 < 0 THEN 0.00 " &
+                              "ELSE DATEDIFF(DAY, CONVERT(DATE, ReturnDate, 103), @Today) * 50 END " &
+                              "WHERE Status = 'Borrowed'"
 
-        ' Use your actual connection string here
         Using conn As New SqlConnection(connectionString)
             Dim cmd As New SqlCommand(sqlUpdate, conn)
-
-            ' Add the current date as a parameter
             cmd.Parameters.AddWithValue("@Today", DateTime.Now)
 
             Try
@@ -973,7 +971,7 @@ Public Class FormBooksTransactions
 
                 ' Check if the update operation was successful
                 If rowsAffected > 0 Then
-                    MessageBox.Show("Fine amounts updated successfully for all rows.")
+                    MessageBox.Show("Fine amounts updated successfully for all borrowed books.")
                 Else
                     MessageBox.Show("No rows were updated.")
                 End If
@@ -981,6 +979,8 @@ Public Class FormBooksTransactions
                 MessageBox.Show("Error: " & ex.Message)
             End Try
         End Using
+
+
     End Sub
 
     Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
