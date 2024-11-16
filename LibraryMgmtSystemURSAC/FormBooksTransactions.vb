@@ -157,7 +157,15 @@ Public Class FormBooksTransactions
             videoCaptureDevice = Nothing
         End If
     End Sub
+    Private Sub StopCameraborrow()
+        ' Release the Mutex
+        'cameraMutex.ReleaseMutex()
 
+        If camera IsNot Nothing AndAlso camera.IsRunning Then
+            camera.SignalToStop()
+            camera = Nothing
+        End If
+    End Sub
     Private Sub Form_Closing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         StopCamera()
     End Sub
@@ -210,7 +218,7 @@ Public Class FormBooksTransactions
         If result IsNot Nothing Then
             txtisbnreturnbook.Invoke(Sub() txtisbnreturnbook.Text = result.Text) ' Display scanned ISBN
             videoCaptureDevice.SignalToStop() ' Stop the camera
-            UpdateDatabase(result.Text) ' Call the update function
+            'UpdateDatabase(result.Text) ' Call the update function
         End If
     End Sub
     Private Sub DecodeBarcode(frame As Bitmap)
@@ -1380,6 +1388,14 @@ Public Class FormBooksTransactions
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         PNLISBN.Visible = True
         PNLRETURNBOOK_.Visible = False
+    End Sub
+
+    Private Sub btncancel_Click(sender As Object, e As EventArgs) Handles btncancel.Click
+        StopCamera()
+    End Sub
+
+    Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
+        StopCameraborrow()
     End Sub
 
 
