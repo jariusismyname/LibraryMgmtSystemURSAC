@@ -148,5 +148,8 @@
   <ItemGroup>
     <None Include="Resources\png-transparent-button-back-return-step-back-arrow-the-direction-of-the.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search__.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

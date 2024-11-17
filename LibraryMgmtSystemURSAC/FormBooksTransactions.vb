@@ -4,6 +4,19 @@ Imports ZXing
 Imports System.Data.SqlClient
 
 Public Class FormBooksTransactions
+
+
+    ' Camera capture variables
+    Private videoSource As VideoCaptureDevice
+    Private videoDevices As FilterInfoCollection
+    Private qrCodeReader As BarcodeReader = New BarcodeReader()
+
+
+
+
+
+
+
     Private camera As VideoCaptureDevice
     Private bmp As Bitmap
     Private connectionString As String = "Data Source=JARIUS-PC\SQLEXPRESS;Initial Catalog=LibraryManagementSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
@@ -91,6 +104,90 @@ Public Class FormBooksTransactions
     '    videoCaptureDevice.Start()
     'End Sub
     ' Private Sub to clear images from PictureBoxCamera and PictureBoxReturnBook
+
+
+    ' Start the camera and display feed in PictureBox
+    Private Sub ButtonstartStudentsQR_Click(sender As Object, e As EventArgs) Handles buttonstartstudentsqr.Click
+        Try
+            ' Initialize video devices (list of available cameras)
+            videoDevices = New FilterInfoCollection(FilterCategory.VideoInputDevice)
+
+            If videoDevices.Count = 0 Then
+                MessageBox.Show("No camera found!")
+                Exit Sub
+            End If
+
+            ' Select the first available camera
+            videoSource = New VideoCaptureDevice(videoDevices(0).MonikerString)
+
+            ' Set the video feed to the PictureBox
+            AddHandler videoSource.NewFrame, AddressOf CaptureFrame_
+            videoSource.Start()
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        End Try
+    End Sub
+
+    ' Capture frame and display in PictureBox
+    Private Sub CaptureFrame_(sender As Object, eventArgs As NewFrameEventArgs)
+        'Try
+        '    ' Get the current frame
+        '    Dim frame As Bitmap = DirectCast(eventArgs.Frame.Clone(), Bitmap)
+
+        '    ' Display the frame in the PictureBox
+        '    PictureBoxstudentsqr.Image = frame
+
+        '    ' Decode the QR code
+        '    Dim result = qrCodeReader.Decode(frame)
+        '    If result IsNot Nothing Then
+        '        ' Display decoded text in TextBox
+        '        TextBoxstudentsqr.Invoke(Sub() TextBoxstudentsqr.Text = result.Text)
+        '        StopCamera_()
+        '    End If
+        'Catch ex As Exception
+        '    ' Handle errors if necessary
+        'End Try
+
+        ' Clone the frame to avoid the bitmap being locked by multiple processes
+        If bmp IsNot Nothing Then
+            bmp.Dispose() ' Dispose of the previous bitmap to avoid memory leaks
+        End If
+
+        bmp = DirectCast(eventArgs.Frame.Clone(), Bitmap)
+        PictureBoxstudentsqr.Image = DirectCast(bmp.Clone(), Bitmap) ' Display the cloned
+        ' 
+
+        ' Barcode reader
+        Dim reader As New BarcodeReader()
+        Dim result As Result = reader.Decode(bmp)
+
+        If result IsNot Nothing Then
+            TextBoxstudentsqr.Invoke(Sub() TextBoxstudentsqr.Text = result.Text) ' Display scanned ISBN
+            videoSource.SignalToStop() ' Stop the camera
+            'UpdateDatabase(result.Text) ' Call the update function
+            'pnlStudentsQR.Visible = False
+            'PNLSTUDENTS.Visible = True
+            'txtstudentnumber.Text = TextBoxstudentsqr.Text
+        End If
+    End Sub
+
+    ' Stop the camera feed
+    Private Sub StopCamera_()
+        If videoSource IsNot Nothing AndAlso videoSource.IsRunning Then
+            videoSource.SignalToStop()
+            videoSource.WaitForStop()
+            videoSource = Nothing
+        End If
+        PictureBoxstudentsqr.Image = Nothing
+    End Sub
+
+    ' Stop the camera when form is closing
+    'Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+
+    '    StopCamera_()
+
+    'End Sub
+
     Private Sub ClearPictureBoxes()
         PictureBoxCamera.Image = Nothing
         PictureBoxReturnBook.Image = Nothing
@@ -465,67 +562,78 @@ Public Class FormBooksTransactions
         End If
     End Sub
     Private Sub btnadd2_Click(sender As Object, e As EventArgs) Handles btnadd2.Click
-        If String.IsNullOrWhiteSpace(txtstudentName_.Text) OrElse String.IsNullOrWhiteSpace(txtstudentnumber.Text) OrElse String.IsNullOrWhiteSpace(txtcourse.Text) Then
-            MessageBox.Show("Please fill in all required fields.")
-            Exit Sub ' Exit the procedure to prevent the insert operation
-        End If
+        Dim input As String = txtstudentnumber.Text
 
-        ' Check if the StudentNumber already exists
-        Dim checkSql As String = "SELECT COUNT(*) FROM Students WHERE StudentNumber = @StudentNumber"
-        Dim studentExists As Integer
+        ' Check if the input is exactly 13 digits
+        If input.Length = 13 AndAlso IsNumeric(input) Then
+            MessageBox.Show("Error: Student Number cannot be a 13-digit number (possible ISBN).", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            txtstudentnumber.Clear()
+            txtstudentnumber.Focus()
+        Else
+            'MessageBox.Show("Student Number is valid.", "Validation Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-        Using conn As New SqlConnection(connectionString)
-            Dim checkCmd As New SqlCommand(checkSql, conn)
-            checkCmd.Parameters.AddWithValue("@StudentNumber", txtstudentnumber.Text)
+            If String.IsNullOrWhiteSpace(txtstudentName_.Text) OrElse String.IsNullOrWhiteSpace(txtstudentnumber.Text) OrElse String.IsNullOrWhiteSpace(txtcourse.Text) Then
+                MessageBox.Show("Please fill in all required fields.")
+                Exit Sub ' Exit the procedure to prevent the insert operation
+            End If
 
-            Try
-                conn.Open()
-                studentExists = Convert.ToInt32(checkCmd.ExecuteScalar())
-                conn.Close()
+            ' Check if the StudentNumber already exists
+            Dim checkSql As String = "SELECT COUNT(*) FROM Students WHERE StudentNumber = @StudentNumber"
+            Dim studentExists As Integer
 
-                ' If StudentNumber exists, stop the operation
-                If studentExists > 0 Then
-                    MessageBox.Show("A student with this Student Number already exists. Please use a unique Student Number.")
+            Using conn As New SqlConnection(connectionString)
+                Dim checkCmd As New SqlCommand(checkSql, conn)
+                checkCmd.Parameters.AddWithValue("@StudentNumber", txtstudentnumber.Text)
+
+                Try
+                    conn.Open()
+                    studentExists = Convert.ToInt32(checkCmd.ExecuteScalar())
+                    conn.Close()
+
+                    ' If StudentNumber exists, stop the operation
+                    If studentExists > 0 Then
+                        MessageBox.Show("A student with this Student Number already exists. Please use a unique Student Number.")
+                        Exit Sub
+                    End If
+
+                Catch ex As Exception
+                    MessageBox.Show("Error: " & ex.Message)
                     Exit Sub
-                End If
+                End Try
+            End Using
 
-            Catch ex As Exception
-                MessageBox.Show("Error: " & ex.Message)
-                Exit Sub
-            End Try
-        End Using
+            ' Proceed with the insert if no duplicate is found
+            Dim sqlInsert As String = "INSERT INTO Students (StudentName, StudentNumber, Course, DateAdded) VALUES (@StudentName, @StudentNumber, @Course, @DateAdded)"
 
-        ' Proceed with the insert if no duplicate is found
-        Dim sqlInsert As String = "INSERT INTO Students (StudentName, StudentNumber, Course, DateAdded) VALUES (@StudentName, @StudentNumber, @Course, @DateAdded)"
+            Using conn As New SqlConnection(connectionString)
+                Dim cmd As New SqlCommand(sqlInsert, conn)
 
-        Using conn As New SqlConnection(connectionString)
-            Dim cmd As New SqlCommand(sqlInsert, conn)
+                ' Add parameters for StudentName, StudentNumber, Course, and DateAdded
+                cmd.Parameters.AddWithValue("@StudentName", txtstudentName_.Text)
+                cmd.Parameters.AddWithValue("@StudentNumber", txtstudentnumber.Text)
+                cmd.Parameters.AddWithValue("@Course", txtcourse.Text)
 
-            ' Add parameters for StudentName, StudentNumber, Course, and DateAdded
-            cmd.Parameters.AddWithValue("@StudentName", txtstudentName_.Text)
-            cmd.Parameters.AddWithValue("@StudentNumber", txtstudentnumber.Text)
-            cmd.Parameters.AddWithValue("@Course", txtcourse.Text)
+                ' Add the current date for the DateAdded column
+                cmd.Parameters.AddWithValue("@DateAdded", DateTime.Now)
 
-            ' Add the current date for the DateAdded column
-            cmd.Parameters.AddWithValue("@DateAdded", DateTime.Now)
+                Try
+                    conn.Open()
+                    Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
 
-            Try
-                conn.Open()
-                Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
+                    ' Check if the insert operation was successful
+                    If rowsAffected > 0 Then
+                        MessageBox.Show("Student added successfully!")
+                        LoadDataIntoDataGridView2() ' Refresh the DataGridView
+                        CLEAR()
 
-                ' Check if the insert operation was successful
-                If rowsAffected > 0 Then
-                    MessageBox.Show("Student added successfully!")
-                    LoadDataIntoDataGridView2() ' Refresh the DataGridView
-                    CLEAR()
-
-                Else
-                    MessageBox.Show("Add operation failed.")
-                End If
-            Catch ex As Exception
-                MessageBox.Show("Error: " & ex.Message)
-            End Try
-        End Using
+                    Else
+                        MessageBox.Show("Add operation failed.")
+                    End If
+                Catch ex As Exception
+                    MessageBox.Show("Error: " & ex.Message)
+                End Try
+            End Using
+        End If
 
 
     End Sub
@@ -774,56 +882,67 @@ Public Class FormBooksTransactions
     End Sub
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
-        ' Check if any of the text boxes are empty
-        If String.IsNullOrWhiteSpace(txtBookname.Text) OrElse
+        Dim input As String = txtISBN_.Text
+
+        ' Check if the input is exactly 13 digits
+        If input.Length = 13 AndAlso IsNumeric(input) Then
+            'MessageBox.Show("Error: Student Number cannot be a 13-digit number (possible ISBN).", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'txtstudentnumber.Clear()
+            'txtstudentnumber.Focus()
+
+
+            ' Check if any of the text boxes are empty
+            If String.IsNullOrWhiteSpace(txtBookname.Text) OrElse
            String.IsNullOrWhiteSpace(txtISBN_.Text) OrElse
            String.IsNullOrWhiteSpace(txtAvailableBooks.Text) Then
-            MessageBox.Show("Please fill in all the fields.")
-            Return
+                MessageBox.Show("Please fill in all the fields.")
+                Return
+            End If
+
+            ' Create the SQL query to check if the ISBN already exists
+            Dim sqlCheckISBN As String = "SELECT COUNT(*) FROM Books WHERE ISBN = @ISBN"
+
+            ' Create the SQL insert command
+            Dim sqlInsert As String = "INSERT INTO Books (BookName, ISBN, AvailableBooks, BorrowedBooks) VALUES (@BookName, @ISBN, @AvailableBooks, @BorrowedBooks)"
+
+            Using conn As New SqlConnection(connectionString)
+                Try
+                    conn.Open()
+
+                    ' Check if the ISBN already exists
+                    Dim checkCmd As New SqlCommand(sqlCheckISBN, conn)
+                    checkCmd.Parameters.AddWithValue("@ISBN", txtISBN_.Text)
+
+                    Dim isbnCount As Integer = CInt(checkCmd.ExecuteScalar())
+
+                    If isbnCount > 0 Then
+                        MessageBox.Show("A book with this ISBN already exists.")
+                        Return ' Exit the function if ISBN already exists
+                    End If
+
+                    ' Proceed with the insert if the ISBN does not exist
+                    Dim insertCmd As New SqlCommand(sqlInsert, conn)
+                    insertCmd.Parameters.AddWithValue("@BookName", txtBookname.Text)
+                    insertCmd.Parameters.AddWithValue("@ISBN", txtISBN_.Text)
+                    insertCmd.Parameters.AddWithValue("@AvailableBooks", txtAvailableBooks.Text)
+                    insertCmd.Parameters.AddWithValue("@BorrowedBooks", 0) ' Set BorrowedBooks to 0 for new entries
+
+                    Dim rowsAffected As Integer = insertCmd.ExecuteNonQuery()
+                    If rowsAffected > 0 Then
+                        MessageBox.Show("Book added successfully!")
+                        LoadDataIntoDataGridView() ' Refresh the DataGridView
+                        CLEAR()
+                    Else
+                        MessageBox.Show("Add operation failed.")
+                    End If
+
+                Catch ex As Exception
+                    MessageBox.Show("Error occurred: " & ex.Message)
+                End Try
+            End Using
+        Else
+            MessageBox.Show("Book ISBN is Invalid.", "Validation UnSuccessful", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-
-        ' Create the SQL query to check if the ISBN already exists
-        Dim sqlCheckISBN As String = "SELECT COUNT(*) FROM Books WHERE ISBN = @ISBN"
-
-        ' Create the SQL insert command
-        Dim sqlInsert As String = "INSERT INTO Books (BookName, ISBN, AvailableBooks, BorrowedBooks) VALUES (@BookName, @ISBN, @AvailableBooks, @BorrowedBooks)"
-
-        Using conn As New SqlConnection(connectionString)
-            Try
-                conn.Open()
-
-                ' Check if the ISBN already exists
-                Dim checkCmd As New SqlCommand(sqlCheckISBN, conn)
-                checkCmd.Parameters.AddWithValue("@ISBN", txtISBN_.Text)
-
-                Dim isbnCount As Integer = CInt(checkCmd.ExecuteScalar())
-
-                If isbnCount > 0 Then
-                    MessageBox.Show("A book with this ISBN already exists.")
-                    Return ' Exit the function if ISBN already exists
-                End If
-
-                ' Proceed with the insert if the ISBN does not exist
-                Dim insertCmd As New SqlCommand(sqlInsert, conn)
-                insertCmd.Parameters.AddWithValue("@BookName", txtBookname.Text)
-                insertCmd.Parameters.AddWithValue("@ISBN", txtISBN_.Text)
-                insertCmd.Parameters.AddWithValue("@AvailableBooks", txtAvailableBooks.Text)
-                insertCmd.Parameters.AddWithValue("@BorrowedBooks", 0) ' Set BorrowedBooks to 0 for new entries
-
-                Dim rowsAffected As Integer = insertCmd.ExecuteNonQuery()
-                If rowsAffected > 0 Then
-                    MessageBox.Show("Book added successfully!")
-                    LoadDataIntoDataGridView() ' Refresh the DataGridView
-                    CLEAR()
-                Else
-                    MessageBox.Show("Add operation failed.")
-                End If
-
-            Catch ex As Exception
-                MessageBox.Show("Error occurred: " & ex.Message)
-            End Try
-        End Using
-
     End Sub
     'Private Sub UpdateTransactions()
     '    Dim studentNumber As String = txtstudentnumber_.Text
@@ -941,6 +1060,9 @@ Public Class FormBooksTransactions
             TXTUSERNAME.Text = ""
             LoadDataIntoDataGridView()
             DeleteStudentsAfterFourYears()
+            btnlogout.Visible = True
+            btnstudents.Visible = True
+            btntransactions.Visible = True
 
         Else
             MessageBox.Show("WRONG INPUT")
@@ -1084,7 +1206,7 @@ Public Class FormBooksTransactions
         'End If
     End Sub
 
-    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles btnlogout.Click
         ' Display a confirmation message box
         Dim result As DialogResult = MessageBox.Show("Do you want to proceed?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
@@ -1092,7 +1214,9 @@ Public Class FormBooksTransactions
         If result = DialogResult.Yes Then
             PNLLOGIN.Visible = True ' Make PNLLOGIN panel visible
             PNLBOOKS.Visible = False ' Make PNLLOGIN panel visible
-
+            btnlogout.Visible = False
+            btnstudents.Visible = False
+            btntransactions.Visible = False
         Else
             ' Do nothing if the user selects No or closes the message box
         End If
@@ -1105,7 +1229,7 @@ Public Class FormBooksTransactions
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
         DeleteStudentsAfterFourYears()
         PNLISBN.Visible = False
-        PNLSTUDENTS.Visible = True
+        pnlStudentsQR.Visible = True
         Button6.Visible = False
         Button5.Visible = True
         LoadDataIntoDataGridView2()
@@ -1184,9 +1308,12 @@ Public Class FormBooksTransactions
         txtstudentnumber_.Text = ""
 
     End Sub
-    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles btnstudents.Click
+        txtstudentnumber.Enabled = True
         PNLBOOKS.Visible = False
         PNLSTUDENTS.Visible = True
+        PNLTRANSACTIONS.Visible = False
+
         btnupdate2.Visible = True
         btndelete2.Visible = True
         Button5.Visible = False
@@ -1220,9 +1347,10 @@ Public Class FormBooksTransactions
 
     End Sub
 
-    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
-        PNLTRANSACTIONS.VISIBLE = True
+    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles btntransactions.Click
+        PNLTRANSACTIONS.Visible = True
         PNLBOOKS.Visible = False
+        PNLSTUDENTS.Visible = False
         LoadDataInDataGridViewTRANSACTIONS()
         Button6.Visible = True
 
@@ -1396,6 +1524,22 @@ Public Class FormBooksTransactions
 
     Private Sub Button20_Click(sender As Object, e As EventArgs) Handles Button20.Click
         StopCameraborrow()
+    End Sub
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        PNLISBN.Visible = True
+        PNLLOGIN.Visible = False
+    End Sub
+
+    Private Sub Button21_Click(sender As Object, e As EventArgs) Handles Button21.Click
+        pnlStudentsQR.Visible = False
+        PNLISBN.Visible = True
+    End Sub
+
+    Private Sub Button4_Click_1(sender As Object, e As EventArgs) Handles Button4.Click
+        pnlStudentsQR.Visible = False
+        PNLSTUDENTS.Visible = True
+        txtstudentnumber.Text = TextBoxstudentsqr.Text
     End Sub
 
 
