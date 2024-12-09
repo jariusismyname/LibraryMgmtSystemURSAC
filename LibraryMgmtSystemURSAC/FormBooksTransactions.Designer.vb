@@ -1067,7 +1067,7 @@ Partial Class FormBooksTransactions
         Me.PNLRETURNBOOK_.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PNLRETURNBOOK_.Location = New System.Drawing.Point(0, 90)
         Me.PNLRETURNBOOK_.Name = "PNLRETURNBOOK_"
-        Me.PNLRETURNBOOK_.Size = New System.Drawing.Size(1138, 528)
+        Me.PNLRETURNBOOK_.Size = New System.Drawing.Size(1138, 488)
         Me.PNLRETURNBOOK_.TabIndex = 49
         Me.PNLRETURNBOOK_.Visible = False
         '
@@ -1379,6 +1379,7 @@ Partial Class FormBooksTransactions
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1138, 618)
+        Me.Controls.Add(Me.PNLRETURNBOOK_)
         Me.Controls.Add(Me.pnlStudentsQR)
         Me.Controls.Add(Me.PNLISBN)
         Me.Controls.Add(Me.PNLSTUDENTS)
@@ -1386,7 +1387,6 @@ Partial Class FormBooksTransactions
         Me.Controls.Add(Me.PNLBOOKS)
         Me.Controls.Add(Me.Paneltop)
         Me.Controls.Add(Me.PNLSTUDENTNUMBER)
-        Me.Controls.Add(Me.PNLRETURNBOOK_)
         Me.Controls.Add(Me.PNLRETURNDATE)
         Me.Controls.Add(Me.PNLTRANSACTIONS)
         Me.Controls.Add(Me.PNLRETURNBOOK)

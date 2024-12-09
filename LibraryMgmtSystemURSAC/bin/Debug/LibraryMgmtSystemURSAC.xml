@@ -27,6 +27,11 @@ LibraryMgmtSystemURSAC
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member>
+<member name="P:LibraryMgmtSystemURSAC.My.Resources.Resources.next1">
+<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member>
 <member name="P:LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the">
 <summary>
   Looks up a localized resource of type System.Drawing.Bitmap.

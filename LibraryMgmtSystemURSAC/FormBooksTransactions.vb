@@ -1461,11 +1461,17 @@ Public Class FormBooksTransactions
     End Sub
 
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles btnreturn.Click
-        ' Define the SQL UPDATE command - ensure only one row is updated based on StudentNumber and ISBN
-        Dim sqlUpdate As String = "
+        ' Define the SQL UPDATE command for Transactions - ensure only one row is updated based on StudentNumber and ISBN
+        Dim sqlUpdateTransaction As String = "
     UPDATE TOP (1) Transactions
     SET Status = 'Returned', ActualReturnDate = @ActualReturnDate
     WHERE StudentNumber = @StudentNumber AND ISBN = @ISBN"
+
+        ' Define the SQL UPDATE command for Books - update AvailableBooks and BorrowedBooks
+        Dim sqlUpdateBooks As String = "
+    UPDATE Books
+    SET AvailableBooks = AvailableBooks + 1, BorrowedBooks = BorrowedBooks - 1
+    WHERE ISBN = @ISBN"
 
         ' Check if textboxes have values
         If String.IsNullOrEmpty(txtstudentnumberreturnbook.Text) OrElse String.IsNullOrEmpty(txtisbnreturnbook.Text) Then
@@ -1475,32 +1481,39 @@ Public Class FormBooksTransactions
 
         ' Create a new SqlConnection using the connection string
         Using conn As New SqlConnection(connectionString)
-            Dim cmd As New SqlCommand(sqlUpdate, conn)
-
-            ' Add parameters for the StudentNumber, ISBN, and ActualReturnDate
-            cmd.Parameters.AddWithValue("@StudentNumber", txtstudentnumberreturnbook.Text)
-            cmd.Parameters.AddWithValue("@ISBN", txtisbnreturnbook.Text)
-            cmd.Parameters.AddWithValue("@ActualReturnDate", DateTime.Now) ' Use current date and time
+            ' Start a SQL transaction
+            conn.Open()
+            Dim transaction As SqlTransaction = conn.BeginTransaction()
 
             Try
-                ' Open the connection
-                conn.Open()
+                ' Update Transactions table
+                Dim cmdTransaction As New SqlCommand(sqlUpdateTransaction, conn, transaction)
+                cmdTransaction.Parameters.AddWithValue("@StudentNumber", txtstudentnumberreturnbook.Text)
+                cmdTransaction.Parameters.AddWithValue("@ISBN", txtisbnreturnbook.Text)
+                cmdTransaction.Parameters.AddWithValue("@ActualReturnDate", DateTime.Now) ' Use current date and time
 
-                ' Execute the UPDATE command
-                Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
+                Dim rowsAffected As Integer = cmdTransaction.ExecuteNonQuery()
 
-                ' Check if the update operation was successful
                 If rowsAffected > 0 Then
-                    MessageBox.Show("Transaction updated successfully!")
+                    ' Update Books table
+                    Dim cmdBooks As New SqlCommand(sqlUpdateBooks, conn, transaction)
+                    cmdBooks.Parameters.AddWithValue("@ISBN", txtisbnreturnbook.Text)
+                    cmdBooks.ExecuteNonQuery()
+
+                    ' Commit the transaction
+                    transaction.Commit()
+
+                    MessageBox.Show("Transaction updated successfully, and book inventory adjusted!")
                     LoadDataIntoDataGridView2() ' Refresh the DataGridView if necessary
                     ClearPictureBoxes()
-
                 Else
+                    ' Rollback the transaction if no transaction is updated
+                    transaction.Rollback()
                     MessageBox.Show("No matching transaction found.")
                 End If
-
             Catch ex As Exception
-                ' Handle any exceptions that occur during the operation
+                ' Rollback the transaction in case of an error
+                transaction.Rollback()
                 MessageBox.Show("Error: " & ex.Message)
             Finally
                 ' Close the connection if it's open
