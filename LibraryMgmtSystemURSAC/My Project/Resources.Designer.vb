@@ -73,6 +73,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property next1() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("next1", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property png_transparent_button_back_return_step_back_arrow_the_direction_of_the() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("png-transparent-button-back-return-step-back-arrow-the-direction-of-the", resourceCulture)

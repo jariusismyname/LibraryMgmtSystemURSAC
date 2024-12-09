@@ -24,7 +24,6 @@ Partial Class FormBooksTransactions
         Me.Button10 = New System.Windows.Forms.Button()
         Me.Button8 = New System.Windows.Forms.Button()
         Me.Button7 = New System.Windows.Forms.Button()
-        Me.PictureBoxCamera = New System.Windows.Forms.PictureBox()
         Me.PNLLOGIN = New System.Windows.Forms.Panel()
         Me.pnlLOGININSIDE = New System.Windows.Forms.Panel()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
@@ -33,29 +32,20 @@ Partial Class FormBooksTransactions
         Me.BTNLOGIN = New System.Windows.Forms.Button()
         Me.TXTPASSWORD = New System.Windows.Forms.TextBox()
         Me.TXTUSERNAME = New System.Windows.Forms.TextBox()
-        Me.PictureBox6 = New System.Windows.Forms.PictureBox()
         Me.PNLDESIGN = New System.Windows.Forms.Panel()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.PNLRETURNDATE = New System.Windows.Forms.Panel()
-        Me.Button18 = New System.Windows.Forms.Button()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.PNLSTUDENTNUMBER = New System.Windows.Forms.Panel()
-        Me.Button19 = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.txtstudentnumber_ = New System.Windows.Forms.TextBox()
         Me.txtstudentnumber = New System.Windows.Forms.TextBox()
         Me.PNLSTUDENTS = New System.Windows.Forms.Panel()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.Label13 = New System.Windows.Forms.Label()
-        Me.btnsearchstudents = New System.Windows.Forms.Button()
         Me.txtsearchstudents = New System.Windows.Forms.TextBox()
-        Me.Button6 = New System.Windows.Forms.Button()
-        Me.Button5 = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -67,7 +57,6 @@ Partial Class FormBooksTransactions
         Me.DataGridViewStudents = New System.Windows.Forms.DataGridView()
         Me.PNLBOOKS = New System.Windows.Forms.Panel()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.btnsearchbooks = New System.Windows.Forms.Button()
         Me.txtsearchbooks = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -109,8 +98,6 @@ Partial Class FormBooksTransactions
         Me.PNLRETURNBOOK_ = New System.Windows.Forms.Panel()
         Me.btncancel = New System.Windows.Forms.Button()
         Me.btncamera = New System.Windows.Forms.Button()
-        Me.PictureBoxReturnBook = New System.Windows.Forms.PictureBox()
-        Me.Button9 = New System.Windows.Forms.Button()
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.btnreturn = New System.Windows.Forms.Button()
@@ -118,18 +105,28 @@ Partial Class FormBooksTransactions
         Me.txtisbnreturnbook = New System.Windows.Forms.TextBox()
         Me.Label14 = New System.Windows.Forms.Label()
         Me.pnlStudentsQR = New System.Windows.Forms.Panel()
-        Me.Button21 = New System.Windows.Forms.Button()
         Me.TextBoxstudentsqr = New System.Windows.Forms.TextBox()
         Me.buttonstartstudentsqr = New System.Windows.Forms.Button()
-        Me.PictureBoxstudentsqr = New System.Windows.Forms.PictureBox()
         Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button21 = New System.Windows.Forms.Button()
+        Me.PictureBoxstudentsqr = New System.Windows.Forms.PictureBox()
+        Me.PictureBoxCamera = New System.Windows.Forms.PictureBox()
+        Me.btnsearchstudents = New System.Windows.Forms.Button()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.PictureBox6 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.btnsearchbooks = New System.Windows.Forms.Button()
+        Me.Button19 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.PictureBoxReturnBook = New System.Windows.Forms.PictureBox()
+        Me.Button9 = New System.Windows.Forms.Button()
+        Me.Button18 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.PNLISBN.SuspendLayout()
-        CType(Me.PictureBoxCamera, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PNLLOGIN.SuspendLayout()
         Me.pnlLOGININSIDE.SuspendLayout()
-        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PNLDESIGN.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PNLRETURNDATE.SuspendLayout()
         Me.PNLSTUDENTNUMBER.SuspendLayout()
         Me.PNLSTUDENTS.SuspendLayout()
@@ -142,9 +139,12 @@ Partial Class FormBooksTransactions
         Me.PNLTRANSACTIONS.SuspendLayout()
         CType(Me.DataGridViewTransactions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PNLRETURNBOOK_.SuspendLayout()
-        CType(Me.PictureBoxReturnBook, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlStudentsQR.SuspendLayout()
         CType(Me.PictureBoxstudentsqr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBoxCamera, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBoxReturnBook, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'txtISBN
@@ -243,16 +243,6 @@ Partial Class FormBooksTransactions
         Me.Button7.Text = "ADD STUDENT"
         Me.Button7.UseVisualStyleBackColor = False
         '
-        'PictureBoxCamera
-        '
-        Me.PictureBoxCamera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBoxCamera.Location = New System.Drawing.Point(281, 84)
-        Me.PictureBoxCamera.Margin = New System.Windows.Forms.Padding(2)
-        Me.PictureBoxCamera.Name = "PictureBoxCamera"
-        Me.PictureBoxCamera.Size = New System.Drawing.Size(541, 330)
-        Me.PictureBoxCamera.TabIndex = 0
-        Me.PictureBoxCamera.TabStop = False
-        '
         'PNLLOGIN
         '
         Me.PNLLOGIN.Controls.Add(Me.pnlLOGININSIDE)
@@ -339,16 +329,6 @@ Partial Class FormBooksTransactions
         Me.TXTUSERNAME.Size = New System.Drawing.Size(342, 40)
         Me.TXTUSERNAME.TabIndex = 3
         '
-        'PictureBox6
-        '
-        Me.PictureBox6.Image = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.user
-        Me.PictureBox6.Location = New System.Drawing.Point(147, 3)
-        Me.PictureBox6.Name = "PictureBox6"
-        Me.PictureBox6.Size = New System.Drawing.Size(100, 87)
-        Me.PictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox6.TabIndex = 2
-        Me.PictureBox6.TabStop = False
-        '
         'PNLDESIGN
         '
         Me.PNLDESIGN.BackColor = System.Drawing.SystemColors.GradientActiveCaption
@@ -361,17 +341,6 @@ Partial Class FormBooksTransactions
         Me.PNLDESIGN.Name = "PNLDESIGN"
         Me.PNLDESIGN.Size = New System.Drawing.Size(330, 441)
         Me.PNLDESIGN.TabIndex = 1
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.real
-        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.PictureBox1.Location = New System.Drawing.Point(114, 245)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(113, 115)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 8
-        Me.PictureBox1.TabStop = False
         '
         'Label19
         '
@@ -406,18 +375,6 @@ Partial Class FormBooksTransactions
         Me.PNLRETURNDATE.TabIndex = 1
         Me.PNLRETURNDATE.Visible = False
         '
-        'Button18
-        '
-        Me.Button18.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button18.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
-        Me.Button18.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Button18.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button18.Location = New System.Drawing.Point(50, 30)
-        Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(117, 110)
-        Me.Button18.TabIndex = 56
-        Me.Button18.UseVisualStyleBackColor = False
-        '
         'Label8
         '
         Me.Label8.AutoSize = True
@@ -427,16 +384,6 @@ Partial Class FormBooksTransactions
         Me.Label8.Size = New System.Drawing.Size(472, 31)
         Me.Label8.TabIndex = 17
         Me.Label8.Text = "Please add your expected return date:"
-        '
-        'Button2
-        '
-        Me.Button2.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources._next
-        Me.Button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Button2.Location = New System.Drawing.Point(676, 342)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(73, 60)
-        Me.Button2.TabIndex = 1
-        Me.Button2.UseVisualStyleBackColor = True
         '
         'DateTimePicker1
         '
@@ -459,18 +406,6 @@ Partial Class FormBooksTransactions
         Me.PNLSTUDENTNUMBER.TabIndex = 4
         Me.PNLSTUDENTNUMBER.Visible = False
         '
-        'Button19
-        '
-        Me.Button19.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button19.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
-        Me.Button19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Button19.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button19.Location = New System.Drawing.Point(50, 33)
-        Me.Button19.Name = "Button19"
-        Me.Button19.Size = New System.Drawing.Size(117, 110)
-        Me.Button19.TabIndex = 56
-        Me.Button19.UseVisualStyleBackColor = False
-        '
         'Label7
         '
         Me.Label7.AutoSize = True
@@ -480,16 +415,6 @@ Partial Class FormBooksTransactions
         Me.Label7.Size = New System.Drawing.Size(355, 31)
         Me.Label7.TabIndex = 16
         Me.Label7.Text = "Enter Your Student Number:"
-        '
-        'Button1
-        '
-        Me.Button1.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources._next
-        Me.Button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Button1.Location = New System.Drawing.Point(694, 258)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(65, 64)
-        Me.Button1.TabIndex = 2
-        Me.Button1.UseVisualStyleBackColor = True
         '
         'txtstudentnumber_
         '
@@ -554,20 +479,6 @@ Partial Class FormBooksTransactions
         Me.Label13.TabIndex = 50
         Me.Label13.Text = "STUDENT MANAGEMENT"
         '
-        'btnsearchstudents
-        '
-        Me.btnsearchstudents.BackColor = System.Drawing.Color.LightSeaGreen
-        Me.btnsearchstudents.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.search__
-        Me.btnsearchstudents.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.btnsearchstudents.Font = New System.Drawing.Font("Segoe UI", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsearchstudents.ForeColor = System.Drawing.Color.White
-        Me.btnsearchstudents.Location = New System.Drawing.Point(803, 63)
-        Me.btnsearchstudents.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnsearchstudents.Name = "btnsearchstudents"
-        Me.btnsearchstudents.Size = New System.Drawing.Size(60, 52)
-        Me.btnsearchstudents.TabIndex = 49
-        Me.btnsearchstudents.UseVisualStyleBackColor = False
-        '
         'txtsearchstudents
         '
         Me.txtsearchstudents.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -577,31 +488,6 @@ Partial Class FormBooksTransactions
         Me.txtsearchstudents.Size = New System.Drawing.Size(484, 38)
         Me.txtsearchstudents.TabIndex = 48
         Me.txtsearchstudents.Text = "Search for a student..."
-        '
-        'Button6
-        '
-        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button6.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
-        Me.Button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Button6.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button6.Location = New System.Drawing.Point(12, 33)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(141, 74)
-        Me.Button6.TabIndex = 47
-        Me.Button6.UseVisualStyleBackColor = False
-        Me.Button6.Visible = False
-        '
-        'Button5
-        '
-        Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button5.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
-        Me.Button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Button5.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button5.Location = New System.Drawing.Point(12, 132)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(141, 74)
-        Me.Button5.TabIndex = 46
-        Me.Button5.UseVisualStyleBackColor = False
         '
         'Label4
         '
@@ -734,20 +620,6 @@ Partial Class FormBooksTransactions
         Me.Label11.Size = New System.Drawing.Size(202, 65)
         Me.Label11.TabIndex = 54
         Me.Label11.Text = " BOOKS"
-        '
-        'btnsearchbooks
-        '
-        Me.btnsearchbooks.BackColor = System.Drawing.Color.LightSeaGreen
-        Me.btnsearchbooks.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.search__
-        Me.btnsearchbooks.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.btnsearchbooks.Font = New System.Drawing.Font("Segoe UI", 14.0!, System.Drawing.FontStyle.Bold)
-        Me.btnsearchbooks.ForeColor = System.Drawing.Color.White
-        Me.btnsearchbooks.Location = New System.Drawing.Point(723, 50)
-        Me.btnsearchbooks.Margin = New System.Windows.Forms.Padding(2)
-        Me.btnsearchbooks.Name = "btnsearchbooks"
-        Me.btnsearchbooks.Size = New System.Drawing.Size(76, 70)
-        Me.btnsearchbooks.TabIndex = 53
-        Me.btnsearchbooks.UseVisualStyleBackColor = False
         '
         'txtsearchbooks
         '
@@ -1225,27 +1097,6 @@ Partial Class FormBooksTransactions
         Me.btncamera.Text = "Click to Start Scanning..."
         Me.btncamera.UseVisualStyleBackColor = False
         '
-        'PictureBoxReturnBook
-        '
-        Me.PictureBoxReturnBook.Location = New System.Drawing.Point(357, 132)
-        Me.PictureBoxReturnBook.Name = "PictureBoxReturnBook"
-        Me.PictureBoxReturnBook.Size = New System.Drawing.Size(442, 226)
-        Me.PictureBoxReturnBook.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBoxReturnBook.TabIndex = 56
-        Me.PictureBoxReturnBook.TabStop = False
-        '
-        'Button9
-        '
-        Me.Button9.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.Button9.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
-        Me.Button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Button9.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button9.Location = New System.Drawing.Point(27, 9)
-        Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(117, 110)
-        Me.Button9.TabIndex = 55
-        Me.Button9.UseVisualStyleBackColor = False
-        '
         'Label15
         '
         Me.Label15.AutoSize = True
@@ -1320,53 +1171,208 @@ Partial Class FormBooksTransactions
         Me.pnlStudentsQR.TabIndex = 52
         Me.pnlStudentsQR.Visible = False
         '
-        'Button21
-        '
-        Me.Button21.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button21.Location = New System.Drawing.Point(120, 48)
-        Me.Button21.Name = "Button21"
-        Me.Button21.Size = New System.Drawing.Size(210, 56)
-        Me.Button21.TabIndex = 3
-        Me.Button21.Text = "Back"
-        Me.Button21.UseVisualStyleBackColor = True
-        '
         'TextBoxstudentsqr
         '
-        Me.TextBoxstudentsqr.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBoxstudentsqr.Location = New System.Drawing.Point(640, 388)
+        Me.TextBoxstudentsqr.Enabled = False
+        Me.TextBoxstudentsqr.Font = New System.Drawing.Font("Microsoft Sans Serif", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBoxstudentsqr.ForeColor = System.Drawing.SystemColors.ScrollBar
+        Me.TextBoxstudentsqr.Location = New System.Drawing.Point(343, 388)
         Me.TextBoxstudentsqr.Name = "TextBoxstudentsqr"
-        Me.TextBoxstudentsqr.Size = New System.Drawing.Size(260, 31)
+        Me.TextBoxstudentsqr.Size = New System.Drawing.Size(387, 47)
         Me.TextBoxstudentsqr.TabIndex = 2
         Me.TextBoxstudentsqr.Text = "StudentsNumber"
         '
         'buttonstartstudentsqr
         '
-        Me.buttonstartstudentsqr.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.buttonstartstudentsqr.Location = New System.Drawing.Point(391, 374)
+        Me.buttonstartstudentsqr.BackColor = System.Drawing.SystemColors.HotTrack
+        Me.buttonstartstudentsqr.Font = New System.Drawing.Font("Microsoft Sans Serif", 26.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.buttonstartstudentsqr.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.buttonstartstudentsqr.Location = New System.Drawing.Point(343, 18)
         Me.buttonstartstudentsqr.Name = "buttonstartstudentsqr"
-        Me.buttonstartstudentsqr.Size = New System.Drawing.Size(210, 56)
+        Me.buttonstartstudentsqr.Size = New System.Drawing.Size(474, 56)
         Me.buttonstartstudentsqr.TabIndex = 1
         Me.buttonstartstudentsqr.Text = "Start"
-        Me.buttonstartstudentsqr.UseVisualStyleBackColor = True
+        Me.buttonstartstudentsqr.UseVisualStyleBackColor = False
+        '
+        'Button4
+        '
+        Me.Button4.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.next1
+        Me.Button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button4.Location = New System.Drawing.Point(736, 378)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(79, 73)
+        Me.Button4.TabIndex = 4
+        Me.Button4.UseVisualStyleBackColor = True
+        '
+        'Button21
+        '
+        Me.Button21.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
+        Me.Button21.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button21.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button21.Location = New System.Drawing.Point(27, 18)
+        Me.Button21.Name = "Button21"
+        Me.Button21.Size = New System.Drawing.Size(97, 81)
+        Me.Button21.TabIndex = 3
+        Me.Button21.UseVisualStyleBackColor = True
         '
         'PictureBoxstudentsqr
         '
-        Me.PictureBoxstudentsqr.Location = New System.Drawing.Point(418, 66)
+        Me.PictureBoxstudentsqr.Location = New System.Drawing.Point(345, 98)
         Me.PictureBoxstudentsqr.Name = "PictureBoxstudentsqr"
-        Me.PictureBoxstudentsqr.Size = New System.Drawing.Size(435, 236)
+        Me.PictureBoxstudentsqr.Size = New System.Drawing.Size(477, 268)
         Me.PictureBoxstudentsqr.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBoxstudentsqr.TabIndex = 0
         Me.PictureBoxstudentsqr.TabStop = False
         '
-        'Button4
+        'PictureBoxCamera
         '
-        Me.Button4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button4.Location = New System.Drawing.Point(903, 378)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(210, 56)
-        Me.Button4.TabIndex = 4
-        Me.Button4.Text = "next"
-        Me.Button4.UseVisualStyleBackColor = True
+        Me.PictureBoxCamera.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBoxCamera.Location = New System.Drawing.Point(281, 84)
+        Me.PictureBoxCamera.Margin = New System.Windows.Forms.Padding(2)
+        Me.PictureBoxCamera.Name = "PictureBoxCamera"
+        Me.PictureBoxCamera.Size = New System.Drawing.Size(541, 330)
+        Me.PictureBoxCamera.TabIndex = 0
+        Me.PictureBoxCamera.TabStop = False
+        '
+        'btnsearchstudents
+        '
+        Me.btnsearchstudents.BackColor = System.Drawing.Color.LightSeaGreen
+        Me.btnsearchstudents.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.search__
+        Me.btnsearchstudents.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.btnsearchstudents.Font = New System.Drawing.Font("Segoe UI", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnsearchstudents.ForeColor = System.Drawing.Color.White
+        Me.btnsearchstudents.Location = New System.Drawing.Point(803, 63)
+        Me.btnsearchstudents.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnsearchstudents.Name = "btnsearchstudents"
+        Me.btnsearchstudents.Size = New System.Drawing.Size(60, 52)
+        Me.btnsearchstudents.TabIndex = 49
+        Me.btnsearchstudents.UseVisualStyleBackColor = False
+        '
+        'Button6
+        '
+        Me.Button6.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Button6.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
+        Me.Button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button6.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button6.Location = New System.Drawing.Point(12, 33)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(141, 74)
+        Me.Button6.TabIndex = 47
+        Me.Button6.UseVisualStyleBackColor = False
+        Me.Button6.Visible = False
+        '
+        'Button5
+        '
+        Me.Button5.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Button5.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
+        Me.Button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button5.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button5.Location = New System.Drawing.Point(12, 132)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(141, 74)
+        Me.Button5.TabIndex = 46
+        Me.Button5.UseVisualStyleBackColor = False
+        '
+        'PictureBox6
+        '
+        Me.PictureBox6.Image = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.user
+        Me.PictureBox6.Location = New System.Drawing.Point(147, 3)
+        Me.PictureBox6.Name = "PictureBox6"
+        Me.PictureBox6.Size = New System.Drawing.Size(100, 87)
+        Me.PictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox6.TabIndex = 2
+        Me.PictureBox6.TabStop = False
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.real
+        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.PictureBox1.Location = New System.Drawing.Point(114, 245)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(113, 115)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 8
+        Me.PictureBox1.TabStop = False
+        '
+        'btnsearchbooks
+        '
+        Me.btnsearchbooks.BackColor = System.Drawing.Color.LightSeaGreen
+        Me.btnsearchbooks.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.search__
+        Me.btnsearchbooks.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.btnsearchbooks.Font = New System.Drawing.Font("Segoe UI", 14.0!, System.Drawing.FontStyle.Bold)
+        Me.btnsearchbooks.ForeColor = System.Drawing.Color.White
+        Me.btnsearchbooks.Location = New System.Drawing.Point(723, 50)
+        Me.btnsearchbooks.Margin = New System.Windows.Forms.Padding(2)
+        Me.btnsearchbooks.Name = "btnsearchbooks"
+        Me.btnsearchbooks.Size = New System.Drawing.Size(76, 70)
+        Me.btnsearchbooks.TabIndex = 53
+        Me.btnsearchbooks.UseVisualStyleBackColor = False
+        '
+        'Button19
+        '
+        Me.Button19.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Button19.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
+        Me.Button19.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button19.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button19.Location = New System.Drawing.Point(50, 33)
+        Me.Button19.Name = "Button19"
+        Me.Button19.Size = New System.Drawing.Size(117, 110)
+        Me.Button19.TabIndex = 56
+        Me.Button19.UseVisualStyleBackColor = False
+        '
+        'Button1
+        '
+        Me.Button1.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources._next
+        Me.Button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button1.Location = New System.Drawing.Point(694, 258)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(65, 64)
+        Me.Button1.TabIndex = 2
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'PictureBoxReturnBook
+        '
+        Me.PictureBoxReturnBook.Location = New System.Drawing.Point(357, 132)
+        Me.PictureBoxReturnBook.Name = "PictureBoxReturnBook"
+        Me.PictureBoxReturnBook.Size = New System.Drawing.Size(442, 226)
+        Me.PictureBoxReturnBook.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBoxReturnBook.TabIndex = 56
+        Me.PictureBoxReturnBook.TabStop = False
+        '
+        'Button9
+        '
+        Me.Button9.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Button9.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
+        Me.Button9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button9.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button9.Location = New System.Drawing.Point(27, 9)
+        Me.Button9.Name = "Button9"
+        Me.Button9.Size = New System.Drawing.Size(117, 110)
+        Me.Button9.TabIndex = 55
+        Me.Button9.UseVisualStyleBackColor = False
+        '
+        'Button18
+        '
+        Me.Button18.BackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.Button18.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources.png_transparent_button_back_return_step_back_arrow_the_direction_of_the
+        Me.Button18.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button18.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button18.Location = New System.Drawing.Point(50, 30)
+        Me.Button18.Name = "Button18"
+        Me.Button18.Size = New System.Drawing.Size(117, 110)
+        Me.Button18.TabIndex = 56
+        Me.Button18.UseVisualStyleBackColor = False
+        '
+        'Button2
+        '
+        Me.Button2.BackgroundImage = Global.LibraryMgmtSystemURSAC.My.Resources.Resources._next
+        Me.Button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Button2.Location = New System.Drawing.Point(676, 342)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(73, 60)
+        Me.Button2.TabIndex = 1
+        Me.Button2.UseVisualStyleBackColor = True
         '
         'FormBooksTransactions
         '
@@ -1393,14 +1399,11 @@ Partial Class FormBooksTransactions
         Me.Text = "Library Management System"
         Me.PNLISBN.ResumeLayout(False)
         Me.PNLISBN.PerformLayout()
-        CType(Me.PictureBoxCamera, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PNLLOGIN.ResumeLayout(False)
         Me.pnlLOGININSIDE.ResumeLayout(False)
         Me.pnlLOGININSIDE.PerformLayout()
-        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PNLDESIGN.ResumeLayout(False)
         Me.PNLDESIGN.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PNLRETURNDATE.ResumeLayout(False)
         Me.PNLRETURNDATE.PerformLayout()
         Me.PNLSTUDENTNUMBER.ResumeLayout(False)
@@ -1421,10 +1424,13 @@ Partial Class FormBooksTransactions
         CType(Me.DataGridViewTransactions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PNLRETURNBOOK_.ResumeLayout(False)
         Me.PNLRETURNBOOK_.PerformLayout()
-        CType(Me.PictureBoxReturnBook, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlStudentsQR.ResumeLayout(False)
         Me.pnlStudentsQR.PerformLayout()
         CType(Me.PictureBoxstudentsqr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBoxCamera, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBoxReturnBook, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
