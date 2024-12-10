@@ -1459,6 +1459,54 @@ Public Class FormBooksTransactions
             End Try
         End Using
     End Sub
+    Private Sub btnPaymentStatus_Click(sender As Object, e As EventArgs) Handles btnpaymentstatus.Click
+        ' Ensure a payment status is selected in the ComboBox
+        If String.IsNullOrEmpty(cmbPaymentStatus.Text) Then
+            MessageBox.Show("Please select a payment status.")
+            Exit Sub
+        End If
+
+        ' Ensure a row is selected in the DataGridView
+        If DataGridViewTransactions.SelectedRows.Count = 0 Then
+            MessageBox.Show("Please select a row in the transactions table.")
+            Exit Sub
+        End If
+
+        ' Get the selected PaymentStatus and TransactionId
+        Dim selectedPaymentStatus As String = cmbPaymentStatus.Text
+        Dim selectedRow As DataGridViewRow = DataGridViewTransactions.SelectedRows(0)
+        Dim transactionId As Integer = Convert.ToInt32(selectedRow.Cells("TransactionId").Value)
+
+        ' Update the PaymentStatus in the database
+        Dim sqlUpdate As String = "
+        UPDATE Transactions
+        SET PaymentStatus = @PaymentStatus
+        WHERE TransactionId = @TransactionId"
+
+        Using conn As New SqlConnection(connectionString)
+            Dim cmd As New SqlCommand(sqlUpdate, conn)
+            cmd.Parameters.AddWithValue("@PaymentStatus", selectedPaymentStatus)
+            cmd.Parameters.AddWithValue("@TransactionId", transactionId)
+
+            Try
+                conn.Open()
+
+                Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
+
+                If rowsAffected > 0 Then
+                    ' Update the PaymentStatus in the DataGridView
+                    selectedRow.Cells("PaymentStatus").Value = selectedPaymentStatus
+                    MessageBox.Show("Payment status updated successfully!")
+                Else
+                    MessageBox.Show("No matching transaction found in the database.")
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error: " & ex.Message)
+            Finally
+                conn.Close()
+            End Try
+        End Using
+    End Sub
 
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles btnreturn.Click
         ' Define the SQL UPDATE command for Transactions - ensure only one row is updated based on StudentNumber and ISBN
